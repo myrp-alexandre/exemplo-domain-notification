@@ -5,7 +5,7 @@ using Livraria.Domain.Dto;
 using Livraria.Domain.Entidades;
 using Livraria.Domain.Interfaces.Validadores;
 
-namespace Livraria.Domain.Serviços.Validadores
+namespace Livraria.Domain.Servicos.Validadores
 {
     public class ValidadorDeLivro : IValidadorDelivro
     {

@@ -7,9 +7,10 @@ using Livraria.Domain.Entidades;
 using Livraria.Domain.Interfaces.Alteradores;
 using Livraria.Domain.Interfaces.Repository;
 using Livraria.Domain.Interfaces.Validadores;
-using Livraria.Domain.Serviços.Armazenadores;
+using Livraria.Domain.Servicos.Armazenadores;
 using Livraria.Tests.Comum;
 using Moq;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -60,9 +61,9 @@ namespace Livraria.Tests.Livros
         {
             //arrange
             var dto = ObterDtoComAutorValido();
-            Livro livro = LivroBuilder.Novo().Build();
-            _notify.Invoke().NewNotification(Resources.LivroEntidade, Resources.LivroJaExiste);
-            _livroRepositorioMock.Setup(x => x.ObterPorTitulo(It.IsAny<string>())).ReturnsAsync(livro);
+            Livro livro = LivroBuilder.Novo().ComTitulo(dto.Titulo).Build();
+            CriaSetUpValidadorDeLivroValidarSeLivroExiste(livro);
+            CriaSetUpRepositorioLivroObterPorTitulo(livro);
             _armazenadorDeLivros = new ArmazenadorDeLivro(
                 _notify,
                 _livroRepositorioMock.Object,
@@ -73,18 +74,34 @@ namespace Livraria.Tests.Livros
             await _armazenadorDeLivros.Armazenar(dto);
 
             //assert
+            var achou = _notify.Invoke().GetNotifications().Any(x => x.Value == Resources.LivroJaExiste);
+            Assert.True(achou);
             _livroRepositorioMock.Verify(x => x.AdicionarAsync(It.IsAny<Livro>()), Times.Never);
+        }
+
+        private void CriaSetUpRepositorioLivroObterPorTitulo(Livro livro)
+        {
+            _livroRepositorioMock.Setup(x => x.ObterPorTitulo(It.IsAny<string>())).ReturnsAsync(livro);
+        }
+
+        private void CriaSetUpValidadorDeLivroValidarSeLivroExiste(Livro livro)
+        {
+            _validadorDeLivroMock.Setup(x => x.ValidarSeLivroExiste(livro))
+           .Callback(() =>
+           {
+               _notify.Invoke().NewNotification(Resources.LivroEntidade, Resources.LivroJaExiste);
+           });
         }
 
         private LivroDto ObterDtoComAutorValido()
         {
             return new LivroDto()
             {
-                AnoDePublicacao = _faker.Random.Int(1990, 2020),
+                AnoDePublicacao = _faker.Random.Int(Constantes.MilNovecentosENoventa, Constantes.DoisMilEVinte),
                 AutorId = Constantes.Um,
-                Edicao = _faker.Random.Int(1, 10),
+                Edicao = _faker.Random.Int(Constantes.Um, Constantes.Dez),
                 Id = Constantes.Zero,
-                Titulo = _faker.Lorem.Paragraph()
+                Titulo = _faker.Lorem.Words(Constantes.Cinco).ToString()
             };
         }
     }

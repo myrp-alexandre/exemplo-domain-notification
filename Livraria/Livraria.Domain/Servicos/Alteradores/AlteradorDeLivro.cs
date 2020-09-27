@@ -2,7 +2,7 @@
 using Livraria.Domain.Entidades;
 using Livraria.Domain.Interfaces.Alteradores;
 
-namespace Livraria.Domain.Serviços.Alteradores
+namespace Livraria.Domain.Servicos.Alteradores
 {
     public class AlteradorDeLivro : IAlteradorDeLivro
     {

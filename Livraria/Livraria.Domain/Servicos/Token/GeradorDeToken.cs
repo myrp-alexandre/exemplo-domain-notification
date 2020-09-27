@@ -7,7 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Livraria.Domain.Serviços.Token
+namespace Livraria.Domain.Servicos.Token
 {
     public static class GeradorDeToken
     {

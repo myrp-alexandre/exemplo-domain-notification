@@ -4,6 +4,7 @@ using Livraria.Common.Interface;
 using Livraria.Common.Model;
 using Livraria.Common.Utils;
 using MediatR;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace Livraria.Common.Implementation
@@ -36,6 +37,10 @@ namespace Livraria.Common.Implementation
         {
             foreach (var erro in validationResult.Errors)
                 _messageHandler.Handle(new Notifications(Resources.ErroDeDominio, erro.ErrorMessage), default(CancellationToken));
+        }
+        public List<Notifications> GetNotifications()
+        {
+            return _messageHandler.GetNotifications();
         }
     }
 }

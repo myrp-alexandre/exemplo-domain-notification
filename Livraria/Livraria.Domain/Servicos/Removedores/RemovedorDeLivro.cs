@@ -5,7 +5,7 @@ using Livraria.Domain.Interfaces.Repository;
 using Livraria.Domain.Interfaces.Validadores;
 using System.Threading.Tasks;
 
-namespace Livraria.Domain.Serviços.Removedores
+namespace Livraria.Domain.Servicos.Removedores
 {
     public class RemovedorDeLivro : IRemovedorDeLivro
     {

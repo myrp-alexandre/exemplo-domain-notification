@@ -1,7 +1,7 @@
 ﻿using Bogus;
 using Livraria.Common.Utils;
 using Livraria.Domain.Dto;
-using Livraria.Domain.Serviços.Alteradores;
+using Livraria.Domain.Servicos.Alteradores;
 using Livraria.Tests.Comum;
 using Xunit;
 
@@ -39,10 +39,10 @@ namespace Livraria.Tests.Livros
         {
             return new LivroDto()
             {
-                AnoDePublicacao = _faker.Random.Int(1990, 2020),
+                AnoDePublicacao = _faker.Random.Int(Constantes.MilNovecentosENoventa, Constantes.DoisMilEVinte),
                 AutorId = Constantes.Um,
-                Edicao = _faker.Random.Int(1, 10),
-                Id = _faker.Random.Int(1, 100),
+                Edicao = _faker.Random.Int(Constantes.Um, Constantes.Dez),
+                Id = _faker.Random.Int(Constantes.Um, Constantes.Cem),
                 Titulo = _faker.Lorem.Paragraph()
             };
         }

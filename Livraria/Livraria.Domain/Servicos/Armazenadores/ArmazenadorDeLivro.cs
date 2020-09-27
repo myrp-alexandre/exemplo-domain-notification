@@ -9,7 +9,7 @@ using Livraria.Domain.Interfaces.Repository;
 using Livraria.Domain.Interfaces.Validadores;
 using System.Threading.Tasks;
 
-namespace Livraria.Domain.Serviços.Armazenadores
+namespace Livraria.Domain.Servicos.Armazenadores
 {
     public class ArmazenadorDeLivro : IArmazenadorDeLivro
     {

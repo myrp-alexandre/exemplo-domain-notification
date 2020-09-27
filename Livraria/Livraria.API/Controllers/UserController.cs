@@ -1,6 +1,6 @@
 ﻿using Livraria.Data.Repository;
 using Livraria.Domain.Dto;
-using Livraria.Domain.Serviços.Token;
+using Livraria.Domain.Servicos.Token;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;

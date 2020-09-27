@@ -16,11 +16,11 @@ namespace Livraria.Tests.Comum
             var faker = FakerBuilder.Novo().Build();
             return new LivroBuilder
             {
-                _id = faker.Random.Int(1, 100),
+                _id = faker.Random.Int(Constantes.Um, Constantes.Cem),
                 _titulo = faker.Random.Words(),
-                _anoDePublicacao = faker.Random.Int(1990, 2020),
-                _edicao = faker.Random.Int(1, 10),
-                _autorId = faker.Random.Int(1, 100)
+                _anoDePublicacao = faker.Random.Int(Constantes.MilNovecentosENoventa, Constantes.DoisMilEVinte),
+                _edicao = faker.Random.Int(Constantes.Um, Constantes.Dez),
+                _autorId = faker.Random.Int(Constantes.Um, Constantes.Cem)
             };
         }
 

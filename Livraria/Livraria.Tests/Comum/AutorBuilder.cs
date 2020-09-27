@@ -13,7 +13,7 @@ namespace Livraria.Tests.Comum
             var fake = FakerBuilder.Novo().Build();
             return new AutorBuilder
             {
-                _id = fake.Random.Int(1, 100),
+                _id = fake.Random.Int(Constantes.Um, Constantes.Cem),
                 _nome = fake.Person.FullName
             };
         }

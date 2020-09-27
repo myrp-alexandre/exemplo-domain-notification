@@ -1,13 +1,11 @@
 ﻿using Bogus;
 using Livraria.Common.Handler;
 using Livraria.Common.Implementation;
-using Livraria.Common.Interface;
 using Livraria.Common.Utils;
 using Livraria.Domain.Entidades;
 using Livraria.Domain.Interfaces.Repository;
 using Livraria.Domain.Interfaces.Validadores;
-using Livraria.Domain.Serviços.Removedores;
-using Livraria.Domain.Serviços.Validadores;
+using Livraria.Domain.Servicos.Removedores;
 using Livraria.Tests.Comum;
 using Moq;
 using Xunit;
@@ -52,9 +50,8 @@ namespace Livraria.Tests.Livros
         public void NaoDeveRemoverLivro()
         {
             //arrange
-            Livro livro = null;
-            _livroRepositorioMock.Setup(x => x.ObterPorIdAsync(Constantes.Um)).ReturnsAsync(livro);
-            _notify.Invoke().NewNotification(Resources.LivroEntidade, Resources.LivroNaoEncontrado);
+            CriaSetUpRepositorioLivroObterPorIdAsync();
+            CriaSetUpValidadorDeLivroValidarLivroEncontrado();
             _removedorDeLivro = new RemovedorDeLivro(_notify, _livroRepositorioMock.Object, _validadorDeLivroMock.Object);
 
             //act
@@ -63,5 +60,20 @@ namespace Livraria.Tests.Livros
             //assert
             _livroRepositorioMock.Verify(x => x.Remover(It.IsAny<Livro>()), Times.Never);
         }
+        private void CriaSetUpValidadorDeLivroValidarLivroEncontrado()
+        {
+            _validadorDeLivroMock.Setup(x => x.ValidarLivroEncontrado(It.IsAny<Livro>()))
+           .Callback(() =>
+           {
+               _notify.Invoke().NewNotification(Resources.LivroEntidade, Resources.LivroNaoEncontrado);
+           });
+        }
+
+        private void CriaSetUpRepositorioLivroObterPorIdAsync()
+        {
+            Livro livro = null;
+            _livroRepositorioMock.Setup(x => x.ObterPorIdAsync(Constantes.Um)).ReturnsAsync(livro);
+        }
+
     }
 }
