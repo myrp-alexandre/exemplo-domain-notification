@@ -1,8 +1,8 @@
-﻿using Livraria.Common.Model;
+﻿using Livraria.Common.Interfaces.Notifications;
+using Livraria.Common.Notifications;
 using Livraria.Common.Utils;
 using Livraria.Domain.Dto;
 using Livraria.Domain.Interfaces.Repository;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,8 +19,9 @@ namespace Livraria.API.Controllers
     {
         private readonly IAutorRepositorio _autorRepositorio;
         public AutorController(
-            INotificationHandler<Notifications> notification,
-            IAutorRepositorio autorRepositorio) : base(notification)
+           // INotificationHandler<Notifications> notification,
+           IDomainNotificationHandler<DomainNotification> notificacaoDeDominio,
+            IAutorRepositorio autorRepositorio) : base(notificacaoDeDominio)//notification)
         {
             _autorRepositorio = autorRepositorio;
         }

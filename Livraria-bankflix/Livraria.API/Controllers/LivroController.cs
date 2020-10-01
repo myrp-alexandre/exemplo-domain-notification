@@ -1,10 +1,10 @@
-﻿using Livraria.Common.Model;
+﻿using Livraria.Common.Interfaces.Notifications;
+using Livraria.Common.Notifications;
 using Livraria.Common.Utils;
 using Livraria.Domain.Dto;
 using Livraria.Domain.Interfaces.Armazenadores;
 using Livraria.Domain.Interfaces.Removedores;
 using Livraria.Domain.Interfaces.Repository;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +17,7 @@ namespace Livraria.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class LivroController : BaseController
     {
         private readonly IArmazenadorDeLivro _armazenadorDeLivro;
@@ -25,12 +25,13 @@ namespace Livraria.API.Controllers
         private readonly ILivroRepositorio _livroRepositorio;
         private readonly ILogger _logger;
         public LivroController(
-            INotificationHandler<Notifications> notification,
+           // INotificationHandler<Notifications> notification,
+           IDomainNotificationHandler<DomainNotification> notificacaoDeDominio,
             ILogger<LivroController> logger,
             IArmazenadorDeLivro armazenadorDeLivro,
             IRemovedorDeLivro removedorDeLivro,
             ILivroRepositorio livroRepositorio)
-            : base(notification)
+            : base(notificacaoDeDominio)//notification)
         {
             _armazenadorDeLivro = armazenadorDeLivro;
             _removedorDeLivro = removedorDeLivro;
@@ -38,7 +39,7 @@ namespace Livraria.API.Controllers
             _logger = logger;
         }
         [HttpPost("AdicionarLivro")]
-        [Authorize(Roles = "manager")]
+       // [Authorize(Roles = "manager")]
         public async Task<IActionResult> AdicionarLivro([FromBody] LivroDto dto)
         {
             //_logger.LogInformation(1002, "Adicionar Livro Controller");
@@ -51,7 +52,7 @@ namespace Livraria.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "manager")]
+        //[Authorize(Roles = "manager")]
         public async Task<IActionResult> Remover(int id)
         {
             await _removedorDeLivro.Remover(id);
@@ -62,7 +63,7 @@ namespace Livraria.API.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "manager")]
+       // [Authorize(Roles = "manager")]
         public async Task<IActionResult> Get(int id)
         {
             try
@@ -76,7 +77,7 @@ namespace Livraria.API.Controllers
             }
         }
         [HttpGet]
-        [Authorize(Roles ="manager")]
+       // [Authorize(Roles ="manager")]
         public async Task<IActionResult> Get()
         {
             try

@@ -1,8 +1,4 @@
-﻿using Livraria.Common.Handler;
-using Livraria.Common.Implementation;
-using Livraria.Common.Interface;
-using Livraria.Common.Model;
-using Livraria.Common.Utils;
+﻿using Livraria.Common.Utils;
 using Livraria.Data.Context;
 using Livraria.DI;
 using Livraria.Domain.Interfaces.Repository;
@@ -39,8 +35,8 @@ namespace Livraria.API
             services.AddCors();
 
             services.AddMediatR(typeof(Startup));
-            services.AddScoped<INotificationHandler<Notifications>, NotifiyHandler>();
-            services.AddScoped<INotify, Notify>();
+           // services.AddScoped<INotificationHandler<Notifications>, NotifiyHandler>();
+           // services.AddScoped<INotify, Notify>();
             Bootstrap.Configure(services);
 
             //Aplicando documentação com Swagger
