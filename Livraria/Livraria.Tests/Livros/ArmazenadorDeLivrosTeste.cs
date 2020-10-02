@@ -18,7 +18,6 @@ namespace Livraria.Tests.Livros
 {
     public class ArmazenadorDeLivrosTeste
     {
-        private NotifiyHandler _notifiyHandler;
         private Notify _notify;
         private readonly Faker _faker;
         private readonly Mock<ILivroRepositorio> _livroRepositorioMock;
@@ -28,8 +27,7 @@ namespace Livraria.Tests.Livros
 
         public ArmazenadorDeLivrosTeste()
         {
-            _notifiyHandler = new NotifiyHandler();
-            _notify = new Notify(_notifiyHandler);
+            _notify = NotifyBuilder.Novo().Build();
             _faker = FakerBuilder.Novo().Build();
             _livroRepositorioMock = new Mock<ILivroRepositorio>();
             _validadorDeLivroMock = new Mock<IValidadorDelivro>();
@@ -64,11 +62,7 @@ namespace Livraria.Tests.Livros
             Livro livro = LivroBuilder.Novo().ComTitulo(dto.Titulo).Build();
             CriaSetUpValidadorDeLivroValidarSeLivroExiste(livro);
             CriaSetUpRepositorioLivroObterPorTitulo(livro);
-            _armazenadorDeLivros = new ArmazenadorDeLivro(
-                _notify,
-                _livroRepositorioMock.Object,
-                _validadorDeLivroMock.Object,
-                _alteradorDeLivroMock.Object);
+           
 
             //act
             await _armazenadorDeLivros.Armazenar(dto);

@@ -1,5 +1,4 @@
 ﻿using Bogus;
-using Livraria.Common.Handler;
 using Livraria.Common.Implementation;
 using Livraria.Common.Utils;
 using Livraria.Domain.Dto;
@@ -13,15 +12,13 @@ namespace Livraria.Tests.Livros
 {
     public class ValidadorDeLivrosTeste
     {
-        private NotifiyHandler _notifiyHandler;
         private Notify _notify;
         private ValidadorDeLivro _validadorDeLivro;
         private readonly Faker _faker;
 
         public ValidadorDeLivrosTeste()
         {
-            _notifiyHandler = new NotifiyHandler();
-            _notify = new Notify(_notifiyHandler);
+            _notify = NotifyBuilder.Novo().Build();
             _validadorDeLivro = new ValidadorDeLivro(_notify);
             _faker = FakerBuilder.Novo().Build();
         }
@@ -36,7 +33,7 @@ namespace Livraria.Tests.Livros
             //act
             _validadorDeLivro.Validar(dto);
             var resultado = _notify.IsValid();
-            var notificacaoExistente = _notifiyHandler.GetNotifications().Any(x => x.Value.Equals(mensagemEsperada));
+            var notificacaoExistente = _notify.GetNotifications().Any(x => x.Value.Equals(mensagemEsperada));
 
             //asset
             Assert.False(resultado);
@@ -53,7 +50,7 @@ namespace Livraria.Tests.Livros
             //act
             _validadorDeLivro.Validar(dto);
             var resultado = _notify.IsValid();
-            var notificacaoExistente = _notifiyHandler.GetNotifications().Any(x => x.Value.Equals(mensagemEsperada));
+            var notificacaoExistente = _notify.GetNotifications().Any(x => x.Value.Equals(mensagemEsperada));
 
             //asset
             Assert.False(resultado);
@@ -84,7 +81,7 @@ namespace Livraria.Tests.Livros
             //act
             _validadorDeLivro.ValidarLivroEncontrado(livro);
             var resultado = _notify.IsValid();
-            var notificacaoExistente = _notifiyHandler.GetNotifications().Any(x => x.Value.Equals(mensagemEsperada));
+            var notificacaoExistente = _notify.GetNotifications().Any(x => x.Value.Equals(mensagemEsperada));
 
             //asset
             Assert.False(resultado);
@@ -115,7 +112,7 @@ namespace Livraria.Tests.Livros
             //act
             _validadorDeLivro.ValidarSeLivroExiste(livro);
             var resultado = _notify.IsValid();
-            var notificacaoExistente = _notifiyHandler.GetNotifications().Any(x => x.Value.Equals(mensagemEsperada));
+            var notificacaoExistente = _notify.GetNotifications().Any(x => x.Value.Equals(mensagemEsperada));
 
             //asset
             Assert.False(resultado);
